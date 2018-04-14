@@ -1,10 +1,16 @@
 package de.artur.oreobot;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 
 
 public class Main {
@@ -36,27 +42,19 @@ public class Main {
 				.setHost("www.greatoreosearch.com")
 				.setPath("/de/code")
 				.build();
-		HttpPost httppost = new HttpPost(uri);
-		System.out.println(httppost.getURI());
+		HttpPost httpPost = new HttpPost(uri);
+
+		CloseableHttpClient client = HttpClients.createDefault();
+		client.execute(httpPost);
 		
-//		HttpClient httpClient = HttpClients.createDefault();
-//	    PostMethod postMethod = new PostMethod(url);
-//	    postMethod.addParameter("Email", email);
-//	    postMethod.addParameter("fname", fname);
-//	    try {
-//	        httpClient.executeMethod(postMethod);
-//	    } catch (HttpException e) {
-//	        e.printStackTrace();
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//
-//	    if (postMethod.getStatusCode() == HttpStatus.SC_OK) {
-//	        String resp = postMethod.getResponseBodyAsString();
-//	    } else {
-//	         //...postMethod.getStatusLine();
-//	    }
-	  }
+		ArrayList<NameValuePair> params = new ArrayList<>();
+		params.add(new BasicNameValuePair("nameterms_conditions", "????"));
+		params.add(new BasicNameValuePair("privacy_policy", "????"));
+			
+		CloseableHttpResponse response = client.execute(httpPost);
+		System.out.println(response.getStatusLine().getStatusCode()); //this should be 200
+		client.close();
+	}
 	
 	public static void main(String[] args) throws Exception {
 		new Main();
