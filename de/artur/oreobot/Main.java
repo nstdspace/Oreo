@@ -4,13 +4,18 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpRequestHandler;
 
 
 public class Main {
@@ -44,7 +49,7 @@ public class Main {
 				.build();
 		HttpPost httpPost = new HttpPost(uri);
 
-		CloseableHttpClient client = HttpClients.createDefault();
+		CloseableHttpClient client = HttpClientBuilder.create().setRedirectStrategy(new LaxRedirectStrategy()).build();
 		client.execute(httpPost);
 		
 		ArrayList<NameValuePair> params = new ArrayList<>();
@@ -53,6 +58,12 @@ public class Main {
 			
 		CloseableHttpResponse response = client.execute(httpPost);
 		System.out.println(response.getStatusLine().getStatusCode()); //this should be 200
+		
+		BasicResponseHandler handler = new BasicResponseHandler();
+		String body = handler.handleResponse(response);
+		System.out.println(body);
+		
+		System.out.println(response);
 		client.close();
 	}
 	
