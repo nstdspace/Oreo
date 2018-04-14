@@ -33,9 +33,8 @@ public class Main {
 	public void sendReq(String url,String email,String fname) throws Exception {
 		URI uri = new URIBuilder()
 				.setScheme("http")
-				.setHost("www.oreo??.com")
-				.setPath("/was/auch/immer")
-//				.setParameter("param", "value")
+				.setHost("www.greatoreosearch.com")
+				.setPath("/de/code")
 				.build();
 		HttpPost httppost = new HttpPost(uri);
 		System.out.println(httppost.getURI());
