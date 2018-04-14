@@ -1,20 +1,20 @@
 package de.artur.oreobot;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.Random;
 
-import org.apache.http.HttpException;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+
 
 public class Main {
 	
 	public String prefix,code;
 	
-	public Main() {
+	public Main() throws Exception {
 		prefix = "7mmjl";
-		generateCodes(60);
+//		generateCodes(60);
+		sendReq("", "", "");
 	}
 	
 	public void generateCodes(int amount) {
@@ -30,27 +30,36 @@ public class Main {
 		System.out.println("art.schmunk@yandex.ru");
 	}
 	
-	public void sendReq(String url,String email,String fname){
-	    HttpClient httpClient = HttpClients.createDefault();
-	    PostMethod postMethod = new PostMethod(url);
-	    postMethod.addParameter("Email", email);
-	    postMethod.addParameter("fname", fname);
-	    try {
-	        httpClient.executeMethod(postMethod);
-	    } catch (HttpException e) {
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-
-	    if (postMethod.getStatusCode() == HttpStatus.SC_OK) {
-	        String resp = postMethod.getResponseBodyAsString();
-	    } else {
-	         //...postMethod.getStatusLine();
-	    }
+	public void sendReq(String url,String email,String fname) throws Exception {
+		URI uri = new URIBuilder()
+				.setScheme("http")
+				.setHost("www.oreo??.com")
+				.setPath("/was/auch/immer")
+//				.setParameter("param", "value")
+				.build();
+		HttpPost httppost = new HttpPost(uri);
+		System.out.println(httppost.getURI());
+		
+//		HttpClient httpClient = HttpClients.createDefault();
+//	    PostMethod postMethod = new PostMethod(url);
+//	    postMethod.addParameter("Email", email);
+//	    postMethod.addParameter("fname", fname);
+//	    try {
+//	        httpClient.executeMethod(postMethod);
+//	    } catch (HttpException e) {
+//	        e.printStackTrace();
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
+//
+//	    if (postMethod.getStatusCode() == HttpStatus.SC_OK) {
+//	        String resp = postMethod.getResponseBodyAsString();
+//	    } else {
+//	         //...postMethod.getStatusLine();
+//	    }
 	  }
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		new Main();
 	}
 }
